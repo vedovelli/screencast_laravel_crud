@@ -4,7 +4,7 @@ class Produto_Controller extends Base_Controller {
 
 	function __construct() {
 		parent::__construct();
-		$this->filter('before', 'product_id')->only(array('unidade', 'remover'));
+		$this->filter('before', 'product_id')->only(array('unidade', 'remover', 'modelos'));
 	}
 
 	public function action_index()
@@ -50,6 +50,15 @@ class Produto_Controller extends Base_Controller {
 		} else {
 			echo 'Produto não encontrado!';
 		}
+	}
+
+	public function action_modelos($product_id)
+	{
+		$produto = Product::find($product_id);
+		$modelos = $produto->relationships['models'];
+		return View::make('produto.modelos')
+			->with('modelos', $modelos)
+			->with('produto', $produto);
 	}
 
 }
